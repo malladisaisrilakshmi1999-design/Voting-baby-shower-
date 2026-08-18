@@ -89,48 +89,10 @@ input{width:100%;padding:15px 16px;border:1px solid #d9dee8;border-radius:14px;f
 </div>
 
 <script>
- //async function submitVote(who) 
  async function submitVote(who) {
   if(localStorage.getItem(votedKey)==="true")return;const name=localStorage.getItem(nameKey);if(!name){showPage("namePage");return;}const buttons=document.querySelectorAll(".vote-btn");buttons.forEach(b=>b.disabled=true);const scriptURL="https://script.google.com/macros/s/AKfycbzwIzUGh_hQkBx6hBmK0obuDgFBhaEWF33shrKBln_zS8P6eQyTEJin-F-GqLz4-pzv0w/exec";try{alert("Sending vote for: "+name+" ("+who+")");await fetch(scriptURL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({name:name,vote:who})});alert("Sent successfully! Checking local storage now.");}catch(e){buttons.forEach(b=>b.disabled=false);alert("Fetch Error Details: "+e.message);return;}votes[who]++;localStorage.setItem(key,JSON.stringify(votes));localStorage.setItem(votedKey,"true");hasVoted=true;document.getElementById("thanksName").textContent=name;showPage("thanksPage");}
- {
- // if (localStorage.getItem(votedKey) === "true") return;
-  
-  const name = localStorage.getItem(nameKey);
-  if (!name) { 
-    showPage("namePage"); 
-    return; 
-  }
-  
-  const buttons = document.querySelectorAll(".vote-btn");
-  buttons.forEach(b => b.disabled = true);
-  
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzwIzUGh_hQkBx6hBmK0obuDgFBhaEWF33shrKBln_zS8P6eQyTEJin-F-GqLz4-pzv0w/exec";
-  
-  try {
-    await fetch(scriptURL, {
-      method: "POST",
-      mode: "no-cors",
-      body: new URLSearchParams({
-        name: name,
-        vote: who
-      })
-    });
-  } catch (e) {
-    buttons.forEach(b => b.disabled = false);
-    alert("Could not submit your vote. Please try again.");
-    return;
-  }
-
-  // Update local state and show thank you page
-  votes[who]++;
-  localStorage.setItem(key, JSON.stringify(votes));
-  localStorage.setItem(votedKey, "true");
-  hasVoted = true;
-  
-  document.getElementById("thanksName").textContent = name;
-  showPage("thanksPage");
- }
  
+
 const key="boyGirlVotes";
 const votedKey="boyGirlHasVoted";
 const nameKey="boyGirlVoterName";
