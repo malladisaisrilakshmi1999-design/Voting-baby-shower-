@@ -6,125 +6,168 @@
 <title>Boy vs Girl — Vote</title>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--blue:#2563eb;--pink:#db2777;--line:#e7eaf0}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#f8fbff,#fdf8fc);color:var(--text)}
-.wrap{max-width:900px;margin:auto;padding:28px 18px 50px}.top{text-align:center;padding:25px 0 18px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#f8fbff,#fdf8fc);color:var(--text)}
+.wrap{max-width:900px;margin:auto;padding:28px 18px 50px}
+.top{text-align:center;padding:25px 0 18px}
 .badge{display:inline-block;background:#fff;border:1px solid var(--line);padding:7px 13px;border-radius:999px;font-size:13px;color:var(--muted);box-shadow:0 4px 18px #00000008}
 h1{font-size:clamp(34px,8vw,58px);margin:17px 0 8px;letter-spacing:-2px}.sub{color:var(--muted);margin:0 auto;max-width:560px;font-size:16px}
+.page{display:none}.page.active{display:block}
+.name-card{max-width:520px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 15px 40px #1720330d;text-align:center}
+.name-card h2{margin:0 0 8px;font-size:25px}.name-card p{color:var(--muted);margin:0 0 20px}
+input{width:100%;padding:15px 16px;border:1px solid #d9dee8;border-radius:14px;font-size:17px;outline:none}input:focus{border-color:var(--blue);box-shadow:0 0 0 4px #2563eb15}
+.primary{border:0;width:100%;padding:14px;border-radius:14px;font-size:16px;font-weight:800;color:#fff;background:#172033;cursor:pointer;margin-top:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:24px;text-align:center;box-shadow:0 15px 40px #1720330d;transition:.2s}
 .card:hover{transform:translateY(-3px);box-shadow:0 20px 45px #17203318}
 .icon{width:86px;height:86px;margin:auto;border-radius:24px;display:grid;place-items:center;font-size:48px}
 .boy .icon{background:#eaf2ff}.girl .icon{background:#fdebf5}
 .name{font-size:25px;font-weight:800;margin:15px 0 4px}.desc{font-size:13px;color:var(--muted);margin-bottom:18px}
-button{border:0;width:100%;padding:14px;border-radius:14px;font-size:16px;font-weight:800;color:#fff;cursor:pointer;transition:.15s}
-button:active{transform:scale(.98)}.boy button{background:var(--blue)}.girl button{background:var(--pink)}
+.vote-btn{border:0;width:100%;padding:14px;border-radius:14px;font-size:16px;font-weight:800;color:#fff;cursor:pointer}
+.boy .vote-btn{background:var(--blue)}.girl .vote-btn{background:var(--pink)}
+.vote-btn:disabled{opacity:.55;cursor:not-allowed}
+.selected{text-align:center;color:var(--muted);font-size:14px;margin-top:18px}
 .results{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;margin-top:18px;box-shadow:0 15px 40px #1720330d}
 .resulthead{display:flex;justify-content:space-between;gap:12px;align-items:center}.resulthead h2{margin:0;font-size:21px}.total{color:var(--muted);font-size:14px}
 .row{margin-top:20px}.rowtop{display:flex;justify-content:space-between;font-weight:750;font-size:14px;margin-bottom:8px}.bar{height:12px;background:#eef1f5;border-radius:99px;overflow:hidden}.fill{height:100%;width:0%;transition:width .5s ease}.bluefill{background:var(--blue)}.pinkfill{background:var(--pink)}
 .note{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
-.reset{margin-top:18px;background:#fff;color:#4b5563;border:1px solid var(--line);width:auto;padding:10px 15px;font-size:13px}
-.winner{margin-top:18px;text-align:center;font-weight:800;min-height:24px}
+.thanks{max-width:600px;margin:28px auto;background:#fff;border:1px solid var(--line);border-radius:30px;padding:36px 24px;text-align:center;box-shadow:0 15px 40px #1720330d}
+.thanks .emoji{font-size:72px;animation:bounce 1s ease infinite alternate}.thanks h2{font-size:32px;margin:10px 0 6px}.thanks p{color:var(--muted);font-size:16px}
+.choice{font-weight:900;font-size:22px;margin:20px 0}
+.choice.boytxt{color:var(--blue)}.choice.girltxt{color:var(--pink)}
+@keyframes bounce{to{transform:translateY(-8px) scale(1.05)}}
 @media(max-width:600px){.grid{gap:12px}.card{padding:18px 13px;border-radius:21px}.icon{width:70px;height:70px;font-size:39px}.name{font-size:21px}h1{letter-spacing:-1.3px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <span class="badge">LIVE POLL • ONE TAP TO VOTE</span>
-    <h1>Who gets your vote?</h1>
-    <p class="sub">Choose one. Your vote is counted instantly on this device.</p>
-  </header>
+<header class="top">
+<span class="badge">LIVE POLL • ONE VOTE</span>
+<h1>Who gets your vote?</h1>
+<p class="sub">Enter your name first, then choose Boy or Girl.</p>
+</header>
 
-  <section class="grid">
-    <article class="card boy">
-      <div class="icon">👦</div>
-      <div class="name">BOY</div>
-      <div class="desc">Team Boy</div>
-      <button onclick="selectVote('boy')">Vote for Boy</button>
-    </article>
-    <article class="card girl">
-      <div class="icon">👧</div>
-      <div class="name">GIRL</div>
-      <div class="desc">Team Girl</div>
-      <button onclick="selectVote('girl')">Vote for Girl</button>
-    </article>
-  </section>
+<section id="namePage" class="page active">
+<div class="name-card">
+<h2>👋 What's your name?</h2>
+<p>Your name is saved on this device with your vote.</p>
+<input id="voterName" type="text" maxlength="40" placeholder="Enter your name" autocomplete="name">
+<button class="primary" onclick="continueToVote()">Continue to Vote →</button>
+</div>
+</section>
 
-  <div id="submitArea" style="text-align:center;margin-top:18px">
-    <div id="selectedText" class="note" style="font-size:14px;margin-bottom:10px">Select Boy or Girl, then press Submit Vote.</div>
-    <button id="submitBtn" class="reset" style="background:#172033;color:#fff;border:0;width:100%;max-width:420px;padding:14px;font-size:16px" onclick="submitVote()">Submit Vote</button>
-  </div>
+<section id="votePage" class="page">
+<div style="text-align:center;color:var(--muted);font-size:14px">Voting as <strong id="displayName"></strong></div>
+<section class="grid">
+<article class="card boy">
+<div class="icon">👦</div><div class="name">BOY</div><div class="desc">Team Boy</div>
+<button class="vote-btn" onclick="submitVote('boy')">Vote for Boy</button>
+</article>
+<article class="card girl">
+<div class="icon">👧</div><div class="name">GIRL</div><div class="desc">Team Girl</div>
+<button class="vote-btn" onclick="submitVote('girl')">Vote for Girl</button>
+</article>
+</section>
+<div id="selectedText" class="selected">Choose one option to submit your vote.</div>
+</section>
 
-  <section class="results">
-    <div class="resulthead"><h2>Live Results</h2><span class="total" id="total">0 votes</span></div>
-    <div class="row">
-      <div class="rowtop"><span>👦 Boy</span><span id="boyPct">0%</span></div>
-      <div class="bar"><div class="fill bluefill" id="boyBar"></div></div>
-    </div>
-    <div class="row">
-      <div class="rowtop"><span>👧 Girl</span><span id="girlPct">0%</span></div>
-      <div class="bar"><div class="fill pinkfill" id="girlBar"></div></div>
-    </div>
-    <div class="winner" id="winner"></div>
-    <div style="text-align:center"><button class="reset" onclick="resetVotes()">Reset votes on this device</button></div>
-  </section>
-  <div class="note">One vote per browser/device. After submitting, your vote cannot be changed or submitted again on this browser.</div>
+<section id="thanksPage" class="page">
+<div class="thanks">
+<div id="thanksEmoji" class="emoji">🥰</div>
+<h2>Thank you, <span id="thanksName"></span>!</h2>
+<div id="thanksChoice" class="choice"></div>
+<p id="thanksMessage"></p>
+</div>
+</section>
+
+<section class="results">
+<div class="resulthead"><h2>Live Results</h2><span class="total" id="total">0 votes</span></div>
+<div class="row"><div class="rowtop"><span>👦 Boy</span><span id="boyPct">0%</span></div><div class="bar"><div class="fill bluefill" id="boyBar"></div></div></div>
+<div class="row"><div class="rowtop"><span>👧 Girl</span><span id="girlPct">0%</span></div><div class="bar"><div class="fill pinkfill" id="girlBar"></div></div></div>
+</section>
+<div class="note">One vote per browser/device. Your name and vote are stored in this browser.</div>
 </div>
 
 <script>
 const key="boyGirlVotes";
 const votedKey="boyGirlHasVoted";
+const nameKey="boyGirlVoterName";
 let votes=JSON.parse(localStorage.getItem(key)||'{"boy":0,"girl":0}');
-let selected=null;
-const hasVoted=localStorage.getItem(votedKey)==="true";
+let hasVoted=localStorage.getItem(votedKey)==="true";
 
-function save(){localStorage.setItem(key,JSON.stringify(votes));render()}
-function selectVote(who){
- if(localStorage.getItem(votedKey)==="true") return;
- selected=who;
- document.getElementById("selectedText").textContent=who==="boy"?"You selected BOY. Press Submit Vote to confirm.":"You selected GIRL. Press Submit Vote to confirm.";
- document.getElementById("submitBtn").style.opacity="1";
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
 }
-function submitVote(){
+function continueToVote(){
+ if(hasVoted){ showAlreadyVoted(); return; }
+ const name=document.getElementById("voterName").value.trim();
+ if(!name){alert("Please enter your name first.");return;}
+ localStorage.setItem(nameKey,name);
+ document.getElementById("displayName").textContent=name;
+ showPage("votePage");
+}
+async function submitVote(who){
  if(localStorage.getItem(votedKey)==="true") return;
- if(!selected){alert("Please select Boy or Girl first.");return;}
- votes[selected]++;
+ const name=localStorage.getItem(nameKey);
+ if(!name){showPage("namePage");return;}
+ const buttons=document.querySelectorAll(".vote-btn");
+ buttons.forEach(b=>b.disabled=true);
+ try {
+   await fetch("https://script.google.com/macros/s/AKfycbzwIzUGh_hQkBx6hBmK0obuDgFBhaEWF33shrKBln_zS8P6eQyTEJin-F-GqLz4-pzv0w/exec", {
+     method:"POST",
+     mode:"no-cors",
+     headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+     body:new URLSearchParams({name:name, vote:who})
+   });
+ } catch(e) {
+   buttons.forEach(b=>b.disabled=false);
+   alert("Could not submit your vote. Please check your internet connection and try again.");
+   return;
+ }
+ votes[who]++;
  localStorage.setItem(key,JSON.stringify(votes));
  localStorage.setItem(votedKey,"true");
- selected=null;
- document.querySelectorAll(".grid button").forEach(b=>b.disabled=true);
- const submit=document.getElementById("submitBtn");
- submit.disabled=true; submit.textContent="✓ Vote Submitted";
- document.getElementById("selectedText").textContent="Thank you! You have already voted on this device.";
- render();
- document.querySelector('.results').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function resetVotes(){
- if(confirm("Reset the votes stored on this device? This will also allow you to vote again on this browser.")){
-  votes={boy:0,girl:0}; localStorage.removeItem(votedKey); save();
-  document.querySelectorAll(".grid button").forEach(b=>b.disabled=false);
-  document.getElementById("submitBtn").disabled=false; document.getElementById("submitBtn").textContent="Submit Vote";
-  document.getElementById("selectedText").textContent="Select Boy or Girl, then press Submit Vote.";
+ hasVoted=true;
+ document.getElementById("thanksName").textContent=name;
+ const choice=document.getElementById("thanksChoice");
+ const msg=document.getElementById("thanksMessage");
+ const emoji=document.getElementById("thanksEmoji");
+ if(who==="boy"){
+   choice.textContent="👦 You voted for BOY!";
+   choice.className="choice boytxt";
+   msg.textContent="Boy got your love! 💙 Thanks for voting!";
+   emoji.textContent="😎💙";
+ }else{
+   choice.textContent="👧 You voted for GIRL!";
+   choice.className="choice girltxt";
+   msg.textContent="Girl got your love! 💗 Thanks for voting!";
+   emoji.textContent="🥰💗";
  }
+ render();
+ showPage("thanksPage");
+}
+function showAlreadyVoted(){
+ const name=localStorage.getItem(nameKey)||"there";
+ document.getElementById("thanksName").textContent=name;
+ document.getElementById("thanksEmoji").textContent="💖";
+ document.getElementById("thanksChoice").textContent="You have already voted!";
+ document.getElementById("thanksChoice").className="choice";
+ document.getElementById("thanksMessage").textContent="Thank you for taking part. One vote per browser/device is allowed.";
+ showPage("thanksPage");
 }
 function render(){
  const total=votes.boy+votes.girl;
- const bp=total?Math.round(votes.boy/total*100):0;
- const gp=total?100-bp:0;
+ const bp=total?Math.round(votes.boy/total*100):0, gp=total?100-bp:0;
  document.getElementById("total").textContent=total+" vote"+(total===1?"":"s");
  document.getElementById("boyPct").textContent=bp+"%";
  document.getElementById("girlPct").textContent=gp+"%";
  document.getElementById("boyBar").style.width=bp+"%";
  document.getElementById("girlBar").style.width=gp+"%";
- document.getElementById("winner").textContent=total===0?"":votes.boy===votes.girl?"It's a tie!":(votes.boy>votes.girl?"👦 Boy is leading":"👧 Girl is leading");
- if(localStorage.getItem(votedKey)==="true"){
-  document.querySelectorAll(".grid button").forEach(b=>b.disabled=true);
-  document.getElementById("submitBtn").disabled=true;
-  document.getElementById("submitBtn").textContent="✓ Vote Submitted";
-  document.getElementById("selectedText").textContent="Thank you! You have already voted on this device.";
- }
 }
+document.getElementById("voterName").addEventListener("keydown",e=>{if(e.key==="Enter")continueToVote()});
 render();
+if(hasVoted && localStorage.getItem(nameKey)) showAlreadyVoted();
 </script>
 </body>
 </html>
